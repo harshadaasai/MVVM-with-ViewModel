@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto">
+
+ <data>
+  <variable
+   name="article"
+   type="com.apero.mvvmviewmodel.model.Followers" />
+
+  <variable
+   name="callback"
+   type="com.apero.mvvmviewmodel.view.callback.OnClickCallback" />
+
+ </data>
+
+ <android.support.v7.widget.CardView
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:onClick="@{(v) ->  callback.onClick(v,article)}"
+  android:orientation="horizontal"
+  app:cardUseCompatPadding="true">
+
+  <LinearLayout
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:orientation="vertical"
+   android:padding="5dp">
+
+   <TextView
+    android:id="@+id/title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/app_name"
+    android:text="@{article.fullname}"
+    android:textStyle="bold" />
+
+   <TextView
+    android:id="@+id/author"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@{article.user_type}" />
+
+
+  </LinearLayout>
+
+ </android.support.v7.widget.CardView>
+</layout>

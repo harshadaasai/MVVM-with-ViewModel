@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+
+    <data>
+        <!--<import type="android.view.View" />-->
+
+        <variable
+            name="loginViewModel"
+            type="com.apero.mvvmviewmodel.viewmodel.LoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+
+        <EditText
+            android:id="@+id/edt_email"
+            android:textSize="16sp"
+            android:hint="Email"
+            android:text="shashank@unicoconnect.com"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:padding="10dp"
+            android:background="#efefef"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <EditText
+            android:id="@+id/edt_password"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:hint="Password"
+            android:text="Unico@1989"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:padding="10dp"
+            android:background="#efefef"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/address_looking_up"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{loginViewModel.isLoading}" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:onClick="@{() -> loginViewModel.onServerLoginClick()}"
+            android:layout_marginTop="10dp"
+            android:text="Login"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+
+
+    </LinearLayout
+        >
+</layout>
