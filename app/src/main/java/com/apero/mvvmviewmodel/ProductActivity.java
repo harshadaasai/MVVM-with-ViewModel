@@ -72,7 +72,7 @@ public class ProductActivity extends AppCompatActivity implements ObserverInterf
         viewModel.getObservableProject().observe(this, nameObserver);
         Log.e(TAG, "class type "+viewModel.getObservableProject().getClass());
 
-
+//        https://github.com/harshadaasai/MVVM-with-ViewModel.git
     }
 
     // Create the observer which updates the UI.
