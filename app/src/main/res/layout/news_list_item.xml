@@ -32,14 +32,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:contentDescription="@string/app_name"
-    android:text="@{article.fullname}"
+    android:text="@{` Name: `+article.fullname}"
     android:textStyle="bold" />
 
    <TextView
     android:id="@+id/author"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@{article.user_type}" />
+    android:text="@{` User Type `+article.user_type}" />
 
 
   </LinearLayout>
