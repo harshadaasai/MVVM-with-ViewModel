@@ -34,79 +34,12 @@ public class ProductAdapter  extends RecyclerView.Adapter<ProductAdapter.Article
         this.mfollowersList.addAll(followers);
     }
 
-    public void setProjectList(final List<Followers> followersList) {
-
-
-        Log.e(TAG, "setProjectList: "+followersList );
-        if (totalfollowersList == null) {
-            position = 0;
-            totalfollowersList = followersList;
-        }
-        else
-        {
-            position = totalfollowersList.size();
-            totalfollowersList.addAll(followersList);
-
-        }
-
-        Log.e(TAG, "setProjectList: position "+position );
-
-        if (this.mfollowersList == null) {
-            this.mfollowersList = followersList;
-            Log.e("when null", "setProjectList: "+totalfollowersList.size() );
-            notifyItemRangeInserted(position, totalfollowersList.size());
-
-        } else {
-            Log.e("when not null", "setProjectList: "+totalfollowersList.size() );
-
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    Log.e(TAG, "getOldListSize: "+followersList.size() );
-                    return followersList.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    Log.e(TAG, "getNewListSize: "+followersList.size() );
-                    return followersList.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    Log.e(TAG, "oldItemPosition: "+oldItemPosition);
-                    Log.e(TAG, "areItemsTheSame: "+newItemPosition );
-                    return followersList.get(oldItemPosition).getFullname() ==
-                            followersList.get(newItemPosition).getFullname();
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    Followers newArticle = followersList.get(newItemPosition);
-                    Followers oldArticle = followersList.get(oldItemPosition);
-                    return newArticle.getFullname().equals(oldArticle.getFullname())
-                            && oldArticle.getUser_type().equals(newArticle.getUser_type());
-                }
-            });
-
-
-
-            result.dispatchUpdatesTo(this);
-
-
-//            this.followersList = followersList;
-//            notifyItemRangeInserted(position, totalfollowersList.size());
-
-        }
-    }
-
     @Override
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         NewsListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.news_list_item,
                         parent, false);
 
         binding.setCallback(new OnClickCallback());
-
         return new ArticleViewHolder(binding);
     }
 
@@ -132,20 +65,11 @@ public class ProductAdapter  extends RecyclerView.Adapter<ProductAdapter.Article
     }
 
     public void updateEmployeeListItems(List<Followers> followers, RecyclerView recyclerView) {
-//        final FollowersDiffCallback diffCallback = new FollowersDiffCallback(this.mfollowersList, followers);
-//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//        Log.e(TAG, "getOldSize: "+diffCallback.getOldListSize() );
-//        Log.e(TAG, "getNewSize: "+diffCallback.getNewListSize() );
-//
-////        this.mfollowersList.clear();
-//        this.mfollowersList.addAll(followers);
-////        diffResult.dispatchUpdatesTo(this);
 
-
-        Log.e(TAG, "oldpos: "+mfollowersList.size() );
+//        Log.e(TAG, "oldpos: "+mfollowersList.size() );
         int oldpos = mfollowersList.size();
         this.mfollowersList.addAll(followers);
-        Log.e(TAG, "newpos: "+mfollowersList.size() );
+//        Log.e(TAG, "newpos: "+mfollowersList.size() );
         notifyDataSetChanged();
         recyclerView.scrollToPosition(oldpos);
 

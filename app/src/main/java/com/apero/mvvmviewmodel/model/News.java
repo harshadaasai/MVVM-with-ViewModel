@@ -11,7 +11,7 @@ import java.util.List;
 public class News extends JSONObject {
 
     int followers_count;
-    List<Followers> followers;
+    List<Followers> followers = new ArrayList<>();
 
     public int getFollowers_count() {
         return followers_count;

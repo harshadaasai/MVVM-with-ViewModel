@@ -1,6 +1,5 @@
 package com.apero.mvvmviewmodel.repository;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.databinding.ObservableInt;
@@ -13,6 +12,7 @@ import com.apero.mvvmviewmodel.LoginViewInterface;
 import com.apero.mvvmviewmodel.model.Login_Request;
 import com.apero.mvvmviewmodel.model.Login_Response;
 import com.apero.mvvmviewmodel.model.News;
+import com.apero.mvvmviewmodel.viewmodel.ProductViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -82,7 +82,6 @@ public class APIRepository {
 
 //            Log.e(TAG, "bearerToken: "+bearerToken);
             request = requestBuilder.build();
-            Log.e(TAG, "intercept: "+request.toString() +" "+request.url() );
 
             return chain.proceed(request);
         }
@@ -92,14 +91,13 @@ public class APIRepository {
     public synchronized static APIRepository getInstance(String access_token) {
         if (projectRepository == null) {
             if (projectRepository == null) {
-                Log.e(TAG, "getInstance: "+access_token );
                 projectRepository = new APIRepository(access_token);
             }
         }
         return projectRepository;
     }
 
-    public LiveData<Login_Response> getLoginResponse(Login_Request source, final LoginViewInterface loginViewInterface, final ObservableInt isLoading) {
+    public MutableLiveData<Login_Response> getLoginResponse(Login_Request source, final LoginViewInterface loginViewInterface, final ObservableInt isLoading) {
         final MutableLiveData<Login_Response> data = new MutableLiveData<>();
         apiInterface.postLoginResponse(source).enqueue(new Callback<Login_Response>() {
             @Override
@@ -123,70 +121,26 @@ public class APIRepository {
     }
 
 
-    public LiveData<News> getNews(ObserverInterface observerInterface) {
-        final MutableLiveData<News> data = new MutableLiveData<>();
-        this.observerInterface = observerInterface;
+    public void getNews(final ProductViewModel viewModel) {
 
-        Log.e(TAG, "getNews: "+apiInterface );
-//
-//        apiInterface.getNews()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<JsonObject>() {
-//                    @Override
-//                    public void accept(JsonObject response) throws Exception {
-//                        Log.e(TAG, "activeobserver: "+data.hasActiveObservers());
-//                        Log.e("accept", "accept: "+response);
-//                        Gson gson = new Gson();
-//                        News news = gson.fromJson(response.toString(), News.class);
-//                        data.setValue(news);
-//                        if(!data.hasActiveObservers())
-//                        {
-//                            data.observeForever(nameObserver);
-//                        }
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        data.setValue(null);
-//                        Log.e("failure", "accept: "+throwable );
-//                    }
-//                });
         apiInterface.getNews().enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        Log.e(TAG, "activeobserver: "+data.hasActiveObservers());
-                        Log.e("accept", "accept: "+response.body());
+
+                        Log.e(TAG, "onResponse: "+response.body());
                         Gson gson = new Gson();
-                        News news = gson.fromJson(response.body().toString(), News.class);
-                        data.setValue(news);
-                        if(!data.hasActiveObservers())
-                        {
-                            data.observeForever(nameObserver);
-                        }
+                        News news1 = gson.fromJson(response.body().toString(), News.class);
+                        viewModel.getObservableNews().setValue(news1);
+
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                data.setValue(null);
-                Log.e("failure", "accept: "+t );
-
+                Log.e(TAG, "onFailure: ",t);
             }
         });
 
-        return data;
+
     }
 
-    final Observer<News> nameObserver = new Observer<News>() {
-        @Override
-        public void onChanged(@Nullable News news) {
-            if (news != null) {
-                Log.e(TAG, "onChanged: "+news.getFollowers());
-                observerInterface.refreshDataandCallAPI(news);
-            }
-        }
-
-
-    };
 }

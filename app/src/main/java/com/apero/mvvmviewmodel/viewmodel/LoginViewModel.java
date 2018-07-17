@@ -27,7 +27,6 @@ public class LoginViewModel extends AndroidViewModel
         newsRepository =  APIRepository.getInstance("");
         isLoading = new ObservableInt();
         isLoading.set(View.GONE);
-
     }
 
     /**
@@ -41,7 +40,6 @@ public class LoginViewModel extends AndroidViewModel
         public Factory(@NonNull Application application, LoginViewInterface loginViewInterface) {
             this.application = application;
             loginView = loginViewInterface;
-            Log.e(TAG, "Factory: "+loginViewInterface );
         }
 
         @Override
@@ -73,7 +71,6 @@ public class LoginViewModel extends AndroidViewModel
 
     public void onServerLoginClick()
     {
-        Log.e("TAG", "onServerLoginClick: "+loginView);
         loginView.login();
     }
 
